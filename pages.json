@@ -28,9 +28,29 @@
 			// "navigationBarTitleText" : ""
 		}
 	}],
+	"subPackages": [
+		{
+			"root":"subpkg",
+			"pages":[{
+				"path" : "goods_detail/goods_detail",
+				"style" : 
+				{
+				
+				}
+			},
+			{
+				"path" : "goods_list/goods_list",
+				"style" : 
+				{
+					// "navigationBarTitleText" : ""
+				}
+			}
+			]
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "橘子优购",
+		"navigationBarTitleText": "橘子优购 🍊",
 		"navigationBarBackgroundColor": "#000",
 		"backgroundColor": "#F8F8F8",
 		"app-plus": {
