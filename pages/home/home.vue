@@ -1,4 +1,7 @@
 <template>
+	<view class="search-box">
+		<Search @click="goSearch"/>
+	</view>
 	<view>
 		<swiper :indicator-dots="true" :autoplay="true" :interval="2000" :duration="1000">
 			<swiper-item v-for="(item,i) in swiperList" :key="i">
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+	import Search from '@/components/search/search.vue'
 	export default {
 		data() {
 			return {
@@ -42,6 +46,9 @@
 				navList:[],
 				floorList:[]
 			};
+		},
+		components:{
+			Search
 		},
 		onLoad(){
 			this.getSwiperList()
@@ -86,8 +93,12 @@
 						url:"/pages/cate/cate"
 					})
 				}
+			},
+			goSearch(){
+				uni.navigateTo({
+					url:'/subpkg/search/search'
+				})
 			}
-			
 		}
 	}
 </script>
@@ -130,5 +141,10 @@ swiper {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
+}
+.search-box {
+	position: sticky;
+	top: 0;
+	z-index: 999;
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+	<Search @click="goSearch"/>
 	<view class="cate">
 		<scroll-view class="cate-left" scroll-y="true" :style="{ height:wh +'px'}">
 			<view v-for="(item,i) in cateList" :key="i" class="cate-left-item" :class="leftActive===i?'active':''" @click="handleLeftClick(item,i)">
@@ -20,8 +21,10 @@
 		</scroll-view>
 	</view>
 </template>
+		components:{
 
 <script>
+	import Search from '@/components/search/search.vue'
 	export default {
 		data() {
 			return {
@@ -32,9 +35,12 @@
 				scrollTop:0
 			};
 		},
+		components:{
+			Search
+		},
 		onLoad(){
 			const sysInfo = uni.getSystemInfoSync()
-			this.wh = sysInfo.windowHeight;
+			this.wh = sysInfo.windowHeight - 50;
 			this.getCateList();
 		},
 		methods:{
@@ -54,6 +60,11 @@
 			handleGoodsList(item) {
 				uni.navigateTo({
 					url:`/subpkg/goods_list/goods_list?cid=${item.cat_id}`
+				})
+			},
+			goSearch(){
+				uni.navigateTo({
+					url:'/subpkg/search/search'
 				})
 			}
 		},
