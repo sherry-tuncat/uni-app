@@ -38,8 +38,10 @@
 </template>
 
 <script>
+	import tabbarBadge from '@/mixins/tabbar-badge.js'
 	import Search from '@/components/search/search.vue'
 	export default {
+		mixins:[tabbarBadge],
 		data() {
 			return {
 				swiperList:[],

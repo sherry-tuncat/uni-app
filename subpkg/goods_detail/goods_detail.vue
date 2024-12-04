@@ -26,15 +26,19 @@
 			</view>
 			
 		</view>
-		<!-- <uni-goods-nav :fill="" :options="options" :button-group="buttonGroup" @click="" @buttonClick="" /> -->
 		<view class="bottom">
-			<uni-goods-nav :fill="true" :options="options" :button-group="buttonGroup"  @click="handleClick"/>
+			<uni-goods-nav :fill="true" :options="options" :button-group="buttonGroup"  @click="handleClick" @buttonClick="handleButtonClick"/>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { mapState,mapMutations,mapGetters } from 'vuex';
 	export default {
+		computed:{
+			...mapState('m_cart',[]),
+			...mapGetters('m_cart',['total'])
+		},
 		data() {
 			return {
 				goods_id:'',
@@ -47,7 +51,7 @@
 					{
 						icon:'cart',
 						text:'购物车',
-						info:2
+						info:this.total || 0
 					}
 				],
 				buttonGroup:[
@@ -64,12 +68,21 @@
 				]
 			};
 		},
-			
 		onLoad(options) {
 			this.goods_id = options.goods_id;
 			this.getGoodsDetail()
 		},
+		watch:{
+			total :{
+				handler(newVal) {
+					let findOption = this.options.find(item=>item.text==='购物车')
+					if(findOption) {findOption.info = newVal}
+				},
+				immediate:true
+			}
+		},
 		methods:{
+			...mapMutations('m_cart',['addToCart']),
 			async getGoodsDetail(){
 				const res = await uni.$http.get('/api/public/v1/goods/detail',{goods_id:this.goods_id})
 				if(res.data.meta.status!==200) {
@@ -89,6 +102,19 @@
 					uni.switchTab({
 						url:`/pages/cart/cart`
 					})
+				}
+			},
+			handleButtonClick(e) {
+				if(e.content.text==='加入购物车') {
+					const goods = {
+						goods_id:this.goods_info.goods_id,
+						goods_name:this.goods_info.goods_name,
+						goods_price:this.goods_info.goods_price,
+						goods_count:1,
+						goods_small_logo:this.goods_info.goods_small_logo,
+						goods_state:true
+					}
+					this.addToCart(goods)
 				}
 			}
 		}

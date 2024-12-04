@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import {$http} from '@escook/request-miniprogram'
+import store from '@/store/store.js'
 
 uni.$http = $http
 $http.baseUrl = "https://api-hmugo-web.itheima.net"
@@ -27,7 +28,8 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
-    ...App
+    ...App,
+	store
 })
 app.$mount()
 // #endif
@@ -36,6 +38,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 import App from './App.vue'
 import {$http} from '@escook/request-miniprogram'
+import store from '@/store/store.js'
 
 uni.$http = $http
 $http.baseUrl = "https://api-hmugo-web.itheima.net"
@@ -57,10 +60,9 @@ uni.$showMsg = function(title="数据加载失败！",duration=1500) {
 
 export function createApp() {
   const app = createSSRApp(App)
-  
-  // app.config.globalProperties.$http = $http;
+  app.use(store)
   return {
-    app
+    app,
   }
 }
 // #endif

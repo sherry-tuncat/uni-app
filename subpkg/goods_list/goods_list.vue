@@ -1,32 +1,20 @@
 <template>
 	<view>
 		<view class="list">
-			<view v-for="(item,index) in goodsList" :key="index" @click="goDetail(item)">
-				<view class="box">
-					<!-- 左侧 -->
-					<view class="">
-						<image :src="item.goods_small_logo" mode="widthFix"></image>
-					</view>
-					<!-- 右侧 -->
-					<view class="right">
-						<view class="title">
-							{{item.goods_name}}
-						</view>
-						<view class="">
-							<view class="money">
-								¥ {{Number(item.goods_price).toFixed(2) }}
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
+			<my-goods 
+				v-for="(item,index) in goodsList" 
+				:key="index"
+				:item="item"
+				@click="goDetail(item)"
+			></my-goods>
 		</view>
 	</view>
 </template>
 
 <script>
+	import MyGoods from '@/components/my-goods/my-goods.vue'
 	export default {
-		
+		components:{MyGoods},
 		data() {
 			return {
 				queryObj:{
@@ -66,7 +54,6 @@
 					url:`/subpkg/goods_detail/goods_detail?goods_id=${item.goods_id}`
 				})
 			},
-			
 		},
 		onReachBottom(){
 			if(this.isLoading) return
